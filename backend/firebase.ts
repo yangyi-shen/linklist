@@ -15,8 +15,8 @@ const firebaseConfig = {
     apiKey: process.env.FIREBASE_API_KEY,
     authDomain: process.env.FIREBASE_AUTH_DOMAIN,
     databaseURL: process.env.FIREBASE_DATABASE_URL,
-    projectId: "your-project-id",
-    storageBucket: "your-storage-bucket",
+    projectId: "linklist-309a5",
+    storageBucket: "linklist-309a5.firebasestorage.app",
     appId: process.env.FIREBASE_APP_ID,
 };
 
