@@ -5,3 +5,9 @@ export interface LinkList {
     userId: number,
     links: Link[],
 }
+
+export interface NewUserLinkList {
+    id: number,
+    userId: number,
+    links: [],
+}

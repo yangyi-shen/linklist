@@ -8,9 +8,9 @@ import {
 } from 'firebase/database';
 import 'dotenv/config';
 
-import { User } from './schemas/User';
+import { NewUser, User } from './schemas/User';
 
-// Initialize Firebase
+// initialize Firebase
 const firebaseConfig = {
     apiKey: process.env.FIREBASE_API_KEY,
     authDomain: process.env.FIREBASE_AUTH_DOMAIN,
@@ -23,8 +23,8 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
 
-// Create operations
-export async function createUser(path: string, data: User): Promise<string> {
+// user operations
+export async function createUser(path: string, data: NewUser): Promise<string> {
     try {
         const newUserRef = push(ref(db, path));
         await set(newUserRef, data);
@@ -35,7 +35,6 @@ export async function createUser(path: string, data: User): Promise<string> {
     }
 }
 
-// Read operations
 export async function getUser(path: string): Promise<User | null> {
     try {
         const snapshot = await get(ref(db, path));
