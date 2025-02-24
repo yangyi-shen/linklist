@@ -56,7 +56,6 @@ app.post('/users/:userId/linkslists/:linkListId', async (req: express.Request, r
     }
 });
 
-// Start server
 app.listen(port, () => {
     console.log(`Server is running on port ${port}`);
 });
