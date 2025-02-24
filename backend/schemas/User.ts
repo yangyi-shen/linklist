@@ -8,3 +8,8 @@ export interface UserData {
         [key: string]: LinkListData
     },
 }
+
+export interface InitUserData {
+    name: string,
+    password: string,
+}
