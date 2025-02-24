@@ -8,7 +8,7 @@ import {
 } from 'firebase/database';
 import 'dotenv/config';
 
-import { NewUser, User } from './schemas/User';
+import { InitUserData, User } from './schemas/User';
 
 // initialize Firebase
 const firebaseConfig = {
@@ -24,20 +24,20 @@ const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
 
 // user operations
-export async function createUser(path: string, data: NewUser): Promise<string> {
+export async function createUser(data: InitUserData): Promise<string> {
     try {
-        const newUserRef = push(ref(db, path));
+        const newUserRef = push(ref(db, `users`));
         await set(newUserRef, data);
-        return newUserRef.key as string;
+        return newUserRef.key;
     } catch (error) {
         console.error('Error creating user:', error);
         throw error;
     }
 }
 
-export async function getUser(path: string): Promise<User | null> {
+export async function getUser(userId: string): Promise<User | null> {
     try {
-        const snapshot = await get(ref(db, path));
+        const snapshot = await get(ref(db, `users/${userId}`));
         return snapshot.exists() ? snapshot.val() : null;
     } catch (error) {
         console.error('Error reading user:', error);
