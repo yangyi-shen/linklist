@@ -1,13 +1,13 @@
 import { Link } from './Link'
 
 export interface LinkList {
-    id: number,
+    linkListId: number,
     userId: number,
     links: Link[],
 }
 
 export interface NewUserLinkList {
-    id: number,
+    linkListId: number,
     userId: number,
     links: [],
 }

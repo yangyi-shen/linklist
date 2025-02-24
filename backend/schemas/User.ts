@@ -1,14 +1,14 @@
 import { LinkList, NewUserLinkList } from './LinkList'
 
 export interface User {
-    id: number;
+    userId: number;
     name: string,
     password: string,
     linkList: LinkList,
 }
 
 export interface NewUser {
-    id: number;
+    userId: number;
     name: string,
     password: string,
     linklist: NewUserLinkList,
