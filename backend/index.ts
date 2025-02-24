@@ -5,7 +5,7 @@ import { LinkData } from './schemas/Link';
 import { createLink, createUser, getLinklist, getUser } from './firebase';
 
 const app = express();
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 6900;
 
 app.use(express.json());
 
