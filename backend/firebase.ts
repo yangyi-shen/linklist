@@ -9,6 +9,7 @@ import {
 import 'dotenv/config';
 
 import { InitUserData, User } from './schemas/User';
+import { Link } from './schemas/Link';
 
 // initialize Firebase
 const firebaseConfig = {
@@ -41,6 +42,18 @@ export async function getUser(userId: string): Promise<User | null> {
         return snapshot.exists() ? snapshot.val() : null;
     } catch (error) {
         console.error('Error reading user:', error);
+        throw error;
+    }
+}
+
+// link operations
+export async function createLink(userId: string, linkListId: string, data: Link): Promise<string> {
+    try {
+        const newLinkRef = push(ref(db, `users/${userId}/linklist/${linkListId}/links`))
+        await set(newLinkRef, data);
+        return newLinkRef.key;
+    } catch (error) {
+        console.error('Error creating link:', error);
         throw error;
     }
 }
