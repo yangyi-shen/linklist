@@ -1,5 +1,7 @@
-import { Link } from './Link'
+import { LinkData } from './Link'
 
-export interface LinkList {
-    links: Link[],
+export interface LinkListData {
+    links: {
+        [key: string]: LinkData
+    },
 }

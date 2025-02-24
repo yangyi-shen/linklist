@@ -1,3 +1,3 @@
-export interface Link {
+export interface LinkData {
     url: string,
 }
