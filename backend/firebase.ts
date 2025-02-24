@@ -8,7 +8,7 @@ import {
 } from 'firebase/database';
 import 'dotenv/config';
 
-import { UserData } from './schemas/User';
+import { UserData, InitUserData } from './schemas/User';
 import { LinkData } from './schemas/Link';
 import { LinkListData } from './schemas/LinkList';
 
@@ -26,10 +26,19 @@ const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
 
 // user operations
-export async function createUser(data: UserData): Promise<string> {
+export async function createUser(data: InitUserData): Promise<string> {
     try {
         const newUserRef = push(ref(db, `users`));
-        await set(newUserRef, data);
+        await set(newUserRef, {
+            ...data,
+            linkLists: { // initialize every new account with a 'main' linklist containing a rickroll
+                'main': {
+                    links: {
+                        'welcome to the linklist platform': 'https://www.youtube.com/watch?v=dQw4w9WgXcQ'
+                    }
+                }
+            }
+        });
         return newUserRef.key;
     } catch (error) {
         console.error('Error creating user:', error);
