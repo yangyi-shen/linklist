@@ -68,6 +68,16 @@ export async function createLinkList(userId: string, data: LinkListData) {
     }
 }
 
+export async function getLinklist(userId: string, linkListId: string): Promise<UserData | null> {
+    try {
+        const snapshot = await get(ref(db, `users/${userId}/linklists/${linkListId}`));
+        return snapshot.exists() ? snapshot.val() : null;
+    } catch (error) {
+        console.error('Error reading link list:', error);
+        throw error;
+    }
+}
+
 // link operations
 export async function createLink(userId: string, linkListId: string, data: LinkData): Promise<string> {
     try {
