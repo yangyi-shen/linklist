@@ -8,8 +8,9 @@ import {
 } from 'firebase/database';
 import 'dotenv/config';
 
-import { InitUserData, User } from './schemas/User';
-import { Link } from './schemas/Link';
+import { UserData } from './schemas/User';
+import { LinkData } from './schemas/Link';
+import { LinkListData } from './schemas/LinkList';
 
 // initialize Firebase
 const firebaseConfig = {
@@ -25,7 +26,7 @@ const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
 
 // user operations
-export async function createUser(data: InitUserData): Promise<string> {
+export async function createUser(data: UserData): Promise<string> {
     try {
         const newUserRef = push(ref(db, `users`));
         await set(newUserRef, data);
@@ -36,7 +37,7 @@ export async function createUser(data: InitUserData): Promise<string> {
     }
 }
 
-export async function getUser(userId: string): Promise<User | null> {
+export async function getUser(userId: string): Promise<UserData | null> {
     try {
         const snapshot = await get(ref(db, `users/${userId}`));
         return snapshot.exists() ? snapshot.val() : null;
@@ -46,10 +47,22 @@ export async function getUser(userId: string): Promise<User | null> {
     }
 }
 
-// link operations
-export async function createLink(userId: string, linkListId: string, data: Link): Promise<string> {
+// linklist operations
+export async function createLinkList(userId: string, data: LinkListData) {
     try {
-        const newLinkRef = push(ref(db, `users/${userId}/linklist/${linkListId}/links`))
+        const newLinkListRef = push(ref(db, `users/${userId}/linklists`))
+        await set(newLinkListRef, data);
+        return newLinkListRef.key;
+    } catch (error) {
+        console.error('Error creating link list:', error);
+        throw error;
+    }
+}
+
+// link operations
+export async function createLink(userId: string, linkListId: string, data: LinkData): Promise<string> {
+    try {
+        const newLinkRef = push(ref(db, `users/${userId}/linklists/${linkListId}/links`))
         await set(newLinkRef, data);
         return newLinkRef.key;
     } catch (error) {
