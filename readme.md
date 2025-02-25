@@ -13,3 +13,4 @@ A rough, significantly simplified copy of del.icio.us. The goal is to both provi
 - - [ ] Create homepage that fetches list of most recently added links
 - - [ ] Create personal page with own list of links + field to add new link
 - - [ ] Allow users to access read-only form of personal page of other users
+- - [ ] Implement responsive design (handle mobile, tablet and desktop)
