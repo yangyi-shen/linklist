@@ -31,7 +31,7 @@ export async function createUser(data: InitUserData): Promise<string> {
         const newUserRef = push(ref(db, `users`));
         await set(newUserRef, {
             ...data,
-            linkLists: { // initialize every new account with a 'main' linklist containing a rickroll
+            linklists: { // initialize every new account with a 'main' linklist containing a rickroll
                 'main': {
                     links: {
                         'welcome to the linklist platform': 'https://www.youtube.com/watch?v=dQw4w9WgXcQ'
@@ -79,6 +79,7 @@ export async function getLinklist(userId: string, linkListId: string): Promise<U
 }
 
 // link operations
+
 export async function createLink(userId: string, linkListId: string, data: LinkData): Promise<string> {
     try {
         const newLinkRef = push(ref(db, `users/${userId}/linklists/${linkListId}/links`))
