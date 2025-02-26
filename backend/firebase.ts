@@ -10,7 +10,7 @@ import 'dotenv/config';
 
 import { UserData, InitUserData } from './schemas/User';
 import { LinkData } from './schemas/Link';
-import { LinkListData } from './schemas/LinkList';
+import { InitLinkListData, LinkListData } from './schemas/LinkList';
 
 // initialize Firebase
 const firebaseConfig = {
@@ -29,16 +29,23 @@ const db = getDatabase(app);
 export async function createUser(data: InitUserData): Promise<string> {
     try {
         const newUserRef = push(ref(db, `users`));
-        await set(newUserRef, {
-            ...data,
-            linklists: { // initialize every new account with a 'main' linklist containing a rickroll
-                'main': {
-                    links: {
-                        'welcome to the linklist platform': 'https://www.youtube.com/watch?v=dQw4w9WgXcQ'
-                    }
-                }
-            }
-        });
+        await set(newUserRef, data);
+        const newUserId = newUserRef.key;
+
+        const newUserLinkListData: InitLinkListData = {
+            userId: newUserId,
+            name: 'main',
+        }
+        const newUserLinkListId = await createLinkList(newUserLinkListData);
+
+        const newUserLinkData: LinkData = {
+            userId: newUserId,
+            linkListId: newUserLinkListId,
+            name: 'welcome to the linklist platform',
+            url: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
+        }
+        await createLink(newUserLinkData);
+
         return newUserRef.key;
     } catch (error) {
         console.error('Error creating user:', error);
@@ -57,9 +64,9 @@ export async function getUser(userId: string): Promise<UserData | null> {
 }
 
 // linklist operations
-export async function createLinkList(userId: string, data: LinkListData) {
+export async function createLinkList(data: InitLinkListData) {
     try {
-        const newLinkListRef = push(ref(db, `users/${userId}/linklists`))
+        const newLinkListRef = push(ref(db, `linklists`))
         await set(newLinkListRef, data);
         return newLinkListRef.key;
     } catch (error) {
@@ -68,9 +75,9 @@ export async function createLinkList(userId: string, data: LinkListData) {
     }
 }
 
-export async function getLinklist(userId: string, linkListId: string): Promise<UserData | null> {
+export async function getLinklist(linkListId: string): Promise<LinkListData | null> {
     try {
-        const snapshot = await get(ref(db, `users/${userId}/linklists/${linkListId}`));
+        const snapshot = await get(ref(db, `linklists/${linkListId}`));
         return snapshot.exists() ? snapshot.val() : null;
     } catch (error) {
         console.error('Error reading link list:', error);
@@ -79,10 +86,9 @@ export async function getLinklist(userId: string, linkListId: string): Promise<U
 }
 
 // link operations
-
-export async function createLink(userId: string, linkListId: string, data: LinkData): Promise<string> {
+export async function createLink(data: LinkData): Promise<string> {
     try {
-        const newLinkRef = push(ref(db, `users/${userId}/linklists/${linkListId}/links`))
+        const newLinkRef = push(ref(db, `links`))
         await set(newLinkRef, data);
         return newLinkRef.key;
     } catch (error) {
