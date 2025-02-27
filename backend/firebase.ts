@@ -5,6 +5,9 @@ import {
     set,
     get,
     push,
+    query,
+    orderByKey,
+    limitToLast,
 } from 'firebase/database';
 import 'dotenv/config';
 
@@ -86,6 +89,29 @@ export async function getLinklist(linkListId: string): Promise<LinkListData | nu
 }
 
 // link operations
+export async function getLatestLinks(): Promise<LinkData[] | null> {
+    try {
+        const latestLinksQuery = query(ref(db, `links`), orderByKey(), limitToLast(10));
+
+        const links: LinkData[] = [];
+        const snapshot = await get(latestLinksQuery);
+
+        if (snapshot.exists()) {
+            const allLinks = snapshot.val();
+            for (const key in allLinks) {
+                links.push(allLinks[key]);
+            }
+
+            return links;
+        } else {
+            return null;
+        }
+    } catch (error) {
+        console.error('Error fetching latest links:', error);
+        throw error;
+    }
+}
+
 export async function createLink(data: LinkData): Promise<string> {
     try {
         const newLinkRef = push(ref(db, `links`))
