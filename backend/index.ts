@@ -33,8 +33,8 @@ app.post('/users', async (req: express.Request, res: express.Response) => {
 });
 
 // linklist endpoints
-app.get('/users/:userId/linklists/:linkListId', async (req: express.Request, res: express.Response) => {
-    const linkListData = await getLinklist(req.params.userId, req.params.linkListId);
+app.get('/linklists/:linkListId', async (req: express.Request, res: express.Response) => {
+    const linkListData = await getLinklist(req.params.linkListId);
 
     if (linkListData) {
         res.status(200).json(linkListData);
@@ -44,11 +44,11 @@ app.get('/users/:userId/linklists/:linkListId', async (req: express.Request, res
 });
 
 // link endpoints
-app.post('/users/:userId/linkslists/:linkListId', async (req: express.Request, res: express.Response) => {
+app.post('/links', async (req: express.Request, res: express.Response) => {
     const linkData: LinkData = req.body;
 
     try {
-        await createLink(req.params.userId, req.params.linkListId, linkData);
+        await createLink(linkData);
 
         res.status(200).json(linkData);
     } catch (error) {
