@@ -1,4 +1,5 @@
 import express from 'express';
+import cors from 'cors';
 
 import { InitUserData, UserData } from './schemas/User';
 import { LinkData } from './schemas/Link';
@@ -7,6 +8,7 @@ import { createLink, createUser, getLatestLinks, getLinklist, getUser } from './
 const app = express();
 const port = process.env.PORT || 6900;
 
+app.use(cors());
 app.use(express.json());
 
 // user apis
