@@ -2,7 +2,7 @@ import express from 'express';
 
 import { InitUserData, UserData } from './schemas/User';
 import { LinkData } from './schemas/Link';
-import { createLink, createUser, getLinklist, getUser } from './firebase';
+import { createLink, createUser, getLatestLinks, getLinklist, getUser } from './firebase';
 
 const app = express();
 const port = process.env.PORT || 6900;
@@ -44,6 +44,16 @@ app.get('/linklists/:linkListId', async (req: express.Request, res: express.Resp
 });
 
 // link endpoints
+app.get('/links/latest', async (req: express.Request, res: express.Response) => {
+    const latestLinks = await getLatestLinks();
+
+    if (latestLinks) {
+        res.status(200).json(latestLinks)
+    } else {
+        res.status(500).json(null)
+    }
+})
+
 app.post('/links', async (req: express.Request, res: express.Response) => {
     const linkData: LinkData = req.body;
 
