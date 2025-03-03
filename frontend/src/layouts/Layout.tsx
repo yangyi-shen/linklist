@@ -6,8 +6,8 @@ const Layout: React.FC = () => {
     return (
         <div className='text-slate-950 bg-slate-50 min-h-screen min-w-screen'>
             <Header />
-            <div className='flex justify-center'>
-                <div className='w-3xl p-4'>
+            <div className='flex justify-center px-4'>
+                <div className='w-3xl py-4'>
                     <Outlet />
                 </div>
             </div>
