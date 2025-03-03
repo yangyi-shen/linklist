@@ -3,7 +3,7 @@ import cors from 'cors';
 
 import { InitUserData, UserData } from './schemas/User';
 import { LinkData } from './schemas/Link';
-import { createLink, createUser, getLatestLinks, getLinklist, getUser, getUserLinkLists } from './firebase';
+import { createLink, createUser, getLatestLinks, getLinkListLinks, getUser, getUserLinkLists } from './firebase';
 
 const app = express();
 const port = process.env.PORT || 6900;
@@ -13,15 +13,7 @@ app.use(express.json());
 
 // user apis
 app.get('/users/:userId', async (req: express.Request, res: express.Response) => {
-    const initUserData = await getUser(req.params.userId);
-    const userLinkLists = await getUserLinkLists(req.params.userId);
-
-    const userData:UserData = {
-        ...initUserData,
-        linkLists: {
-            ...userLinkLists,
-        }
-    }
+    const userData:InitUserData = await getUser(req.params.userId);
 
     if (userData) {
         res.status(200).json(userData);
@@ -43,8 +35,8 @@ app.post('/users', async (req: express.Request, res: express.Response) => {
 });
 
 // linklist endpoints
-app.get('/linklists/:linkListId', async (req: express.Request, res: express.Response) => {
-    const linkListData = await getLinklist(req.params.linkListId);
+app.get('/linklists/:userId', async (req: express.Request, res: express.Response) => {
+    const linkListData = await getUserLinkLists(req.params.userId);
 
     if (linkListData) {
         res.status(200).json(linkListData);
@@ -59,6 +51,16 @@ app.get('/links/latest', async (req: express.Request, res: express.Response) => 
 
     if (latestLinks) {
         res.status(200).json(latestLinks)
+    } else {
+        res.status(500).json(null)
+    }
+})
+
+app.get('/links/:linkListId', async (req: express.Request, res: express.Response) => {
+    const linkListLinks = await getLinkListLinks(req.params.linkListId);
+
+    if (linkListLinks) {
+        res.status(200).json(linkListLinks)
     } else {
         res.status(500).json(null)
     }
