@@ -125,6 +125,23 @@ export async function getLatestLinks(): Promise<{ [key: string]: LinkData } | nu
     }
 }
 
+export async function getLinkListLinks(linkListId: string): Promise<{ [key: string]: LinkData } | null> {
+    try {
+        const linkListLinksQuery = query(ref(db, `links`), orderByChild('linkListId'), equalTo(linkListId));
+
+        const snapshot = await get(linkListLinksQuery);
+
+        if (snapshot.exists()) {
+            return snapshot.val();
+        } else {
+            return null;
+        }
+    } catch (error) {
+        console.error('Error fetching link list links:', error);
+        throw error;
+    }
+}
+
 export async function createLink(data: LinkData): Promise<string> {
     try {
         const newLinkRef = push(ref(db, `links`))
