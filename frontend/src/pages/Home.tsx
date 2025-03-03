@@ -30,7 +30,7 @@ const Home: React.FC = () => {
                                 <li key={index}>
                                     <div>
                                         <p>{link.name}</p>
-                                        <a className="font-light text-sm text-blue-500 hover:underline" href={link.url}>{link.url}</a>
+                                        <a className="font-light text-sm text-blue-500 hover:underline" href={link.url} target="_blank">{link.url}</a>
                                     </div>
                                 </li>
                             )
