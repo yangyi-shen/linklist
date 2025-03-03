@@ -8,6 +8,8 @@ import {
     query,
     orderByKey,
     limitToLast,
+    equalTo,
+    orderByChild,
 } from 'firebase/database';
 import 'dotenv/config';
 
@@ -88,21 +90,32 @@ export async function getLinklist(linkListId: string): Promise<LinkListData | nu
     }
 }
 
+export async function getUserLinkLists(userId: string): Promise<{ [key: string]: LinkListData } | null> {
+    try {
+        const userLinkListsQuery = query(ref(db, `linklists`), orderByChild('userId'), equalTo(userId));
+
+        const snapshot = await get(userLinkListsQuery);
+
+        if (snapshot.exists()) {
+            return snapshot.val();
+        } else {
+            return null;
+        }
+    } catch (error) {
+        console.error('Error reading user link lists:', error);
+        throw error;
+    }
+}
+
 // link operations
-export async function getLatestLinks(): Promise<LinkData[] | null> {
+export async function getLatestLinks(): Promise<{ [key: string]: LinkData } | null> {
     try {
         const latestLinksQuery = query(ref(db, `links`), orderByKey(), limitToLast(10));
 
-        const links: LinkData[] = [];
         const snapshot = await get(latestLinksQuery);
 
         if (snapshot.exists()) {
-            const allLinks = snapshot.val();
-            for (const key in allLinks) {
-                links.push(allLinks[key]);
-            }
-
-            return links;
+            return snapshot.val();
         } else {
             return null;
         }
