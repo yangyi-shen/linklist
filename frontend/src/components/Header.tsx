@@ -16,7 +16,7 @@ const Header: React.FC = () => {
     }
 
     return (
-        <header className="py-4 border-b-1 border-slate-200 flex justify-center">
+        <header className="p-4 border-b-1 border-slate-200 flex justify-center">
             <div className="w-3xl flex justify-between">
                 <button className="text-xl font-bold" onClick={handleLogoClick}>
                     <span>link</span>
