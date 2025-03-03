@@ -2,7 +2,7 @@ import { LinkData } from "@/utils/schemas"
 import { useEffect, useState } from "react"
 
 const Home: React.FC = () => {
-    const [latestLinks, setLatestLinks] = useState<LinkData[]>([]);
+    const [latestLinks, setLatestLinks] = useState<{ [key: string]: LinkData }>({});
 
     async function fetchLatestLinks() {
         const response = await fetch(`http://localhost:6900/links/latest`)
@@ -25,9 +25,9 @@ const Home: React.FC = () => {
                 <h2 className="text-2xl mb-2 font-extrabold">Most recently added links:</h2>
                 <ul className="list-disc ml-4">
                     {
-                        latestLinks.map((link, index) => {
+                        Object.entries(latestLinks).map(([id, link]) => {
                             return (
-                                <li key={index}>
+                                <li key={id}>
                                     <div>
                                         <p>{link.name}</p>
                                         <a className="font-light text-sm text-blue-500 hover:underline" href={link.url} target="_blank">{link.url}</a>
