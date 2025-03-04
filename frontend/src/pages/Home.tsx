@@ -1,3 +1,4 @@
+import Link from "@/components/Link";
 import { LinkData } from "@/utils/schemas"
 import { useEffect, useState } from "react"
 
@@ -25,13 +26,10 @@ const Home: React.FC = () => {
                 <h2 className="text-2xl mb-2 font-extrabold">Most recently added links:</h2>
                 <ul className="list-disc ml-4">
                     {
-                        Object.entries(latestLinks).map(([id, link]) => {
+                        Object.entries(latestLinks).map(([linkId, linkData]) => {
                             return (
-                                <li key={id}>
-                                    <div>
-                                        <p>{link.name}</p>
-                                        <a className="font-light text-sm text-blue-500 hover:underline" href={link.url} target="_blank">{link.url}</a>
-                                    </div>
+                                <li key={linkId}>
+                                    <Link linkData={linkData} />
                                 </li>
                             )
                         })
