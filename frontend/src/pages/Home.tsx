@@ -23,7 +23,7 @@ const Home: React.FC = () => {
                 <p className="text-slate-500">A greatly simplified remake of del.icio.us</p>
             </div>
             <div>
-                <h2 className="text-2xl mb-2 font-extrabold">Most recently added links:</h2>
+                <h2 className="text-xl mb-2 font-semibold">Most recently added links:</h2>
                 <ul className="list-disc ml-4">
                     {
                         Object.entries(latestLinks).map(([linkId, linkData]) => {
