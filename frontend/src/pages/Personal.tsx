@@ -1,3 +1,4 @@
+import Link from "@/components/Link";
 import { InitUserData, LinkListData, UserData } from "@/utils/schemas";
 import { useEffect, useState } from "react";
 
@@ -24,7 +25,7 @@ const Personal: React.FC = () => {
             await Promise.all(promises);
             return userLinkLists;
         }
-        
+
         userLinkLists = await populateUserLinkLists(userLinkLists);
 
         const userData: UserData = {
@@ -45,7 +46,35 @@ const Personal: React.FC = () => {
 
     return (
         <main>
-            <h1>Personal Page</h1>
+            <div className="mb-4">
+                <h1 className="text-xl font-semibold">Account details</h1>
+                <p><span className="text-slate-500">Username:</span> {userData ? userData.name : 'loading...'}</p>
+                <p><span className="text-slate-500">Password:</span> {userData ? userData.password : 'loading...'}</p>
+            </div>
+            <div>
+                <h2 className="text-xl font-semibold">Your link lists:</h2>
+                {
+                    userData ?
+                        Object.entries(userData.linkLists).map(([linkListId, linkListData]) =>
+                            <div key={linkListId}>
+                                <h2 className="font-semibold">{linkListData.name}</h2>
+                                <ul className="list-disc ml-4">
+                                    {
+                                        Object.entries(linkListData.links).map(([linkId, linkData]) =>
+                                            <li>
+                                                <Link key={linkId} linkData={linkData} />
+                                            </li>
+                                        )
+                                    }
+                                </ul>
+                            </div>
+                        )
+                        :
+                        <p>loading...</p>
+                }
+                <ul className="list-disc ml-4">
+                </ul>
+            </div>
         </main>
     )
 }
