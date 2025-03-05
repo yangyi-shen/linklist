@@ -1,6 +1,7 @@
+import { FormEvent, useEffect, useRef, useState } from "react";
+
 import Link from "@/components/Link";
 import { InitUserData, LinkData, LinkListData, UserData } from "@/utils/schemas";
-import { FormEvent, useEffect, useRef, useState } from "react";
 
 const Personal: React.FC = () => {
     const [userData, setUserData] = useState<UserData | null>(null);
@@ -85,11 +86,6 @@ const Personal: React.FC = () => {
 
     return (
         <main>
-            <div className="mb-4">
-                <p className="text-xl font-semibold">Account details</p>
-                <p><span className="text-slate-500">Username:</span> {userData ? userData.name : 'loading...'}</p>
-                <p><span className="text-slate-500">Password:</span> {userData ? userData.password : 'loading...'}</p>
-            </div>
             <div className="mb-4">
                 <p className="text-xl font-semibold mb-2">Create a new link</p>
                 {
