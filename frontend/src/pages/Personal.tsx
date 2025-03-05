@@ -61,6 +61,9 @@ const Personal: React.FC = () => {
             },
             body: JSON.stringify(newLinkData),
         })
+
+        // update user data to show newly created link
+        await fetchUserData();
     }
 
     useEffect(() => {
