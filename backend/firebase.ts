@@ -142,6 +142,23 @@ export async function getLinkListLinks(linkListId: string): Promise<{ [key: stri
     }
 }
 
+export async function getUserLinks(userId: string): Promise<{ [key: string]: LinkData } | null> {
+    try {
+        const userLinksQuery = query(ref(db, `links`), orderByChild('userId'), equalTo(userId));
+
+        const snapshot = await get(userLinksQuery);
+
+        if (snapshot.exists()) {
+            return snapshot.val();
+        } else {
+            return null;
+        }
+    } catch (error) {
+        console.error('Error fetching user links:', error);
+        throw error;
+    }
+}
+
 export async function createLink(data: LinkData): Promise<string> {
     try {
         const newLinkRef = push(ref(db, `links`))

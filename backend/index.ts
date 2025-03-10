@@ -3,7 +3,7 @@ import cors from 'cors';
 
 import { InitUserData, UserData } from './schemas/User';
 import { LinkData } from './schemas/Link';
-import { createLink, createUser, getLatestLinks, getLinkListLinks, getUser, getUserLinkLists } from './firebase';
+import { createLink, createUser, getLatestLinks, getLinkListLinks, getUser, getUserLinkLists, getUserLinks } from './firebase';
 
 const app = express();
 const port = process.env.PORT || 6900;
@@ -27,7 +27,7 @@ app.post('/users', async (req: express.Request, res: express.Response) => {
 
     try {
         await createUser(userData);
-
+        
         res.status(200).json(userData)
     } catch (error) {
         res.status(500).json(error)
@@ -61,6 +61,16 @@ app.get('/links/:linkListId', async (req: express.Request, res: express.Response
 
     if (linkListLinks) {
         res.status(200).json(linkListLinks)
+    } else {
+        res.status(500).json(null)
+    }
+})
+
+app.get('/links/:userId', async (req: express.Request, res: express.Response) => {
+    const userLinks = await getUserLinks(req.params.userId);
+
+    if (userLinks) {
+        res.status(200).json(userLinks)
     } else {
         res.status(500).json(null)
     }
