@@ -4,13 +4,13 @@ A rough, significantly simplified copy of del.icio.us. The goal is to both provi
 
 # todo-list:
 
-- [ ] Create Node.js Typescript backend
-- - [ ] Create database schemas (.ts files that just export interfaces) for Users, LinkLists
-- - [ ] Set up CRUD with Firebase Realtime Database (bothersome!)
-- - [ ] Set up CRUD APIs with Express
+- [x] Create Node.js Typescript backend
+- - [x] Create database schemas (.ts files that just export interfaces) for Users, LinkLists
+- - [x] Set up CRUD with Firebase Realtime Database (bothersome!)
+- - [x] Set up CRUD APIs with Express
 - [ ] Create React Typescript frontend
 - - [ ] Set up Vercel hosting
-- - [ ] Create homepage that fetches list of most recently added links
-- - [ ] Create personal page with own list of links + field to add new link
+- - [x] Create homepage that fetches list of most recently added links
+- - [x] Create personal page with own list of links + field to add new link
 - - [ ] Allow users to access read-only form of personal page of other users
 - - [ ] Implement responsive design (handle mobile, tablet and desktop)
